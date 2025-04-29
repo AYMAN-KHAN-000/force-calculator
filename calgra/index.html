@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="shortcut icon" href="not allowed.png" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Force Calculator</title>
+  <style>
+    :root {
+      --primary-color: #007bff;
+      --primary-hover: #0056b3;
+      --sum-color: #28a745;
+    }
+    * { box-sizing: border-box; }
+    body { background-image: url('./bg.png');background-size: cover; font-family: Arial, sans-serif;  background-repeat: no-repeat;  display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; }
+    h1 { margin-bottom: 10px; color: #333; }
+    .social-card { background: #fff; padding: 8px 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); width: 100%; max-width: 450px; display: flex; justify-content: center; align-items: center; margin-bottom: 20px; }
+    .social-card h3 { margin-right: 10px; color: #555; font-size: 1rem; }
+    .social-card a { margin: 0 8px; }
+    .social-card img { width: 30px; height: 30px; display: block; }
+    .tabs { margin-bottom: 20px; }
+    .tabs button {
+      padding: 10px 20px;
+      margin: 0 5px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: background 0.3s, color 0.3s;
+      color: #333;
+    }
+    .tabs button.active, .tabs button:hover { background: var(--primary-color); color: #fff; }
+    .card { background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 450px; margin-bottom: 20px; }
+    .form-row { display: flex; margin-bottom: 10px; align-items: center; }
+    .form-row label { flex: 1; margin-right: 10px; color: #555; }
+    .form-row input, .form-row select { flex: 2; padding: 8px; border: 1px solid #ccc; border-radius: 5px; }
+    .form-row input:focus, .form-row select:focus { outline: none; border-color: var(--primary-color); }
+    .card button {
+      width: 100%; padding: 12px; margin-top: 10px; border: none; border-radius: 5px;
+      background: var(--primary-color); color: #fff; cursor: pointer;
+      font-size: 18px; transition: background 0.3s;
+    }
+    .card button:hover { background: var(--primary-hover); }
+    .answer { font-size: 1.5rem; margin-bottom: 8px; text-align: center; }
+    .answer .caption { color: var(--primary-color); margin-right: 6px; font-weight: bold; }
+    .answer .sum { color: var(--sum-color); font-weight: bold; }
+    .result { margin-top: 10px; color: #333; }
+    pre { text-align: left; white-space: pre-wrap; word-wrap: break-word; font-size: 0.9rem; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <h1 style="background-color: #fff; padding: 5px 15px; border-radius: 5px;">Force Calculator by AYMAN</h1>
+  <div class="social-card">
+    <h3>VISIT :</h3>
+    <a href="https://github.com/AYMAN-KHAN-000" target="_blank" rel="noopener">
+      <img src="github.png" alt="GitHub" style="border-radius: 100px;">
+    </a>
+    <a href="https://facebook.com/notavailable" target="_blank" rel="noopener">
+      <img src="facebook.png" alt="Facebook">
+    </a>
+    <a href="https://instagram.com/real_ayman000" target="_blank" rel="noopener">
+      <img src="insta.png" alt="Instagram">
+    </a>
+    <a href="https://ayman-khan-000.github.io/ayman-bio/pbio/" target="_blank" rel="noopener">
+      <img src="web.png" alt="Website">
+    </a>
+    <a href="https://github.com/AYMAN-KHAN-000/force-calculator" target="_blank" style="color: #007bff; font: bolder; text-decoration: none;">Ripo</a>
+  </div>
+  <div class="tabs">
+    <button id="btn-gravity" class="active">Gravitational Force</button>
+    <button id="btn-weight">Weight (F = mg)</button>
+  </div>
+  <div id="gravity-card" class="card">
+    <div class="form-row">
+      <label for="m1">Mass 1:</label>
+      <input id="m1" type="number" value="5" step="any" />
+      <select id="unit-m1">
+        <option value="µg">µg</option>
+        <option value="mg">mg</option>
+        <option value="g">g</option>
+        <option value="kg" selected>kg</option>
+        <option value="tonne">tonne</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label for="m2">Mass 2:</label>
+      <input id="m2" type="number" value="3" step="any" />
+      <select id="unit-m2">
+        <option value="µg">µg</option>
+        <option value="mg">mg</option>
+        <option value="g">g</option>
+        <option value="kg" selected>kg</option>
+        <option value="tonne">tonne</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label for="dist">Distance:</label>
+      <input id="dist" type="number" value="10" step="any" />
+      <select id="unit-dist">
+        <option value="mm">mm</option>
+        <option value="cm">cm</option>
+        <option value="m" selected>m</option>
+        <option value="km">km</option>
+        <option value="mile">mile</option>
+      </select>
+    </div>
+    <button id="calc-gravity">Calculate</button>
+    <div id="result-gravity" class="result">
+      <div id="answer-gravity" class="answer hidden"></div>
+      <pre id="steps-gravity"></pre>
+    </div>
+  </div>
+  <div id="weight-card" class="card hidden">
+    <div class="form-row">
+      <label for="mass">Mass:</label>
+      <input id="mass" type="number" value="50" step="any" />
+      <select id="unit-mass">
+        <option value="µg">µg</option>
+        <option value="mg" selected>mg</option>
+        <option value="g">g</option>
+        <option value="kg">kg</option>
+        <option value="tonne">tonne</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label for="body">Celestial Body:</label>
+      <select id="body">
+        <option value="Custom" selected>Custom g</option>
+        <option value="1.62">Moon (1.62)</option>
+        <option value="3.71">Mars (3.71)</option>
+        <option value="8.87">Venus (8.87)</option>
+        <option value="9.8">Earth (9.80)</option>
+        <option value="10.44">Saturn (10.44)</option>
+        <option value="11.15">Neptune (11.15)</option>
+        <option value="24.79">Jupiter (24.79)</option>
+        <option value="8.69">Uranus (8.69)</option>
+        <option value="0.62">Pluto (0.62)</option>
+        <option value="274">Sun (274)</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label for="gaccel">g (m/s²):</label>
+      <input id="gaccel" type="number" value="9.8" step="any" />
+    </div>
+    <button id="calc-weight">Calculate</button>
+    <div id="result-weight" class="result">
+      <div id="answer-weight" class="answer hidden"></div>
+      <pre id="steps-weight"></pre>
+    </div>
+  </div>
+  <script>
+    const G = 6.674e-11;
+    const unitFactors = { µg: 1e-9, mg: 1e-6, g: 1e-3, kg: 1, tonne: 1e3, mm: 1e-3, cm: 1e-2, m: 1, km: 1e3, mile: 1609.34 };
+    const formatExp = num => {
+      const parts = num.toExponential(6).split('e');
+      const mant = parts[0];
+      const exp = parseInt(parts[1], 10);
+      return `${mant}×10<sup>${exp}</sup>`;
+    };
+    // Tabs
+    document.getElementById('btn-gravity').onclick = () => { document.getElementById('gravity-card').classList.remove('hidden'); document.getElementById('weight-card').classList.add('hidden'); document.getElementById('btn-gravity').classList.add('active'); document.getElementById('btn-weight').classList.remove('active'); };
+    document.getElementById('btn-weight').onclick = () => { document.getElementById('weight-card').classList.remove('hidden'); document.getElementById('gravity-card').classList.add('hidden'); document.getElementById('btn-weight').classList.add('active'); document.getElementById('btn-gravity').classList.remove('active'); };
+    // Celestial preset
+    const bodySelect = document.getElementById('body'), gInput = document.getElementById('gaccel');
+    bodySelect.onchange = () => { if(bodySelect.value==='Custom'){ gInput.disabled=false; gInput.value=''; gInput.focus(); } else { gInput.disabled=true; gInput.value=bodySelect.value; }};
+    // Calc gravity
+    document.getElementById('calc-gravity').onclick = () => {
+      const rawM1 = +document.getElementById('m1').value, uM1 = document.getElementById('unit-m1').value;
+      const rawM2 = +document.getElementById('m2').value, uM2 = document.getElementById('unit-m2').value;
+      const rawD = +document.getElementById('dist').value, uD = document.getElementById('unit-dist').value;
+      const m1 = rawM1*unitFactors[uM1], m2 = rawM2*unitFactors[uM2], d = rawD*unitFactors[uD];
+      const f = G*(m1*m2)/(d*d);
+      const formatted = formatExp(f)+' N';
+      document.getElementById('answer-gravity').innerHTML = `<span class="caption">Force:</span><span class="sum">${formatted}</span>`;
+      document.getElementById('answer-gravity').classList.remove('hidden');
+      const steps = [
+        `Step 1: Convert masses and distance to SI:`,
+        `  m1 = ${rawM1} ${uM1} = ${m1} kg`,
+        `  m2 = ${rawM2} ${uM2} = ${m2} kg`,
+        `  d  = ${rawD} ${uD} = ${d} m`,
+        `Step 2: Apply formula F = G * m1 * m2 / d²`,
+        `  F = ${G} * ${m1} * ${m2} / (${d}²)`,
+        `Step 3: Compute numeric result`,
+        `  F ≈ ${f.toExponential(6)} N`
+      ];
+      document.getElementById('steps-gravity').textContent = steps.join("\n");
+    };
+    // Calc weight
+    document.getElementById('calc-weight').onclick = () => {
+      const rawM = +document.getElementById('mass').value, uM = document.getElementById('unit-mass').value;
+      const g = +document.getElementById('gaccel').value;
+      const m = rawM*unitFactors[uM], w = m*g;
+      const formatted = formatExp(w)+' N';
+      document.getElementById('answer-weight').innerHTML = `<span class="caption">Weight:</span><span class="sum">${formatted}</span>`;
+      document.getElementById('answer-weight').classList.remove('hidden');
+      const stepsW = [
+        `Step 1: Convert mass to SI:`,
+        `  m = ${rawM} ${uM} = ${m} kg`,
+        `Step 2: Apply formula W = m * g`,
+        `  W = ${m} * ${g}`,
+        `Step 3: Compute numeric result`,
+        `  W ≈ ${w.toExponential(6)} N`
+      ];
+      document.getElementById('steps-weight').textContent = stepsW.join("\n");
+    };
+  </script>
+</body>
+</html>
